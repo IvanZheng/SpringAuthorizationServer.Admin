@@ -1,4 +1,4 @@
-package springbootauthorizationserver.core;
+package springauthorizationserver.core;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;

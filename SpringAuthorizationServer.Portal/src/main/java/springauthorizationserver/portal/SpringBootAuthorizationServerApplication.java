@@ -1,11 +1,11 @@
-package springbootauthorizationserver.portal;
+package springauthorizationserver.portal;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Import;
-import springbootauthorizationserver.core.SecurityConfig;
+import springauthorizationserver.core.SecurityConfig;
 
 @SpringBootApplication
 @Import(SecurityConfig.class)

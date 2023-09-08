@@ -20,6 +20,10 @@
     <artifactId>SpringAuthorizationServer.Admin</artifactId>
     <version>${revision}</version>
     <modules>
-        <module>SpringBootAuthorizationServer.Portal</module>
+        <module>SpringAuthorizationServer.Portal</module>
+        <module>SpringAuthorizationServer.Core</module>
     </modules>
+    <dependencies>
+
+    </dependencies>
 </project>
