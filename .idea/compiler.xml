@@ -6,11 +6,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SpringAuthorizationServer.Core" />
-        <module name="SpringAuthorizationServer.Portal" />
+        <module name="spring-authorization-server-core" />
+        <module name="spring-authorization-server-portal" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="springAuthorizationServer.admin" target="1.5" />
+      <module name="SpringAuthorizationServer.Admin" target="1.5" />
+      <module name="SpringAuthorizationServer.Core" target="17" />
+      <module name="springAuthorizationServer.core" target="17" />
+      <module name="SpringAuthorizationServer.Portal" target="17" />
+      <module name="springAuthorizationServer.portal" target="17" />
       <module name="SpringBootAuthorizationServer.Core" target="17" />
       <module name="SpringBootAuthorizationServer.Portal" target="17" />
     </bytecodeTargetLevel>
@@ -21,6 +27,10 @@
       <module name="SpringAuthorizationServer.Portal" options="-parameters" />
       <module name="SpringBootAuthorizationServer.Core" options="-parameters" />
       <module name="SpringBootAuthorizationServer.Portal" options="-parameters" />
+      <module name="spring-authorization-server-core" options="-parameters" />
+      <module name="spring-authorization-server-portal" options="-parameters" />
+      <module name="springAuthorizationServer.core" options="-parameters" />
+      <module name="springAuthorizationServer.portal" options="-parameters" />
     </option>
   </component>
 </project>

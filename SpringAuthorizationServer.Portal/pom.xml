@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>SpringAuthorizationServer.Admin</artifactId>
+        <artifactId>spring-authorization-server-admin</artifactId>
         <groupId>ivan</groupId>
         <version>${revision}</version>
     </parent>
 
     <packaging>jar</packaging>
-    <artifactId>SpringAuthorizationServer.Portal</artifactId>
+    <artifactId>spring-authorization-server-portal</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -21,9 +21,8 @@
     <dependencies>
         <dependency>
             <groupId>ivan</groupId>
-            <artifactId>SpringAuthorizationServer.Core</artifactId>
-            <version>1.0.0</version>
+            <artifactId>spring-authorization-server-core</artifactId>
+            <version>${revision}</version>
         </dependency>
-
     </dependencies>
 </project>

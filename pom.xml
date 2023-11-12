@@ -17,11 +17,11 @@
     </properties>
     <groupId>ivan</groupId>
     <packaging>pom</packaging>
-    <artifactId>SpringAuthorizationServer.Admin</artifactId>
+    <artifactId>spring-authorization-server-admin</artifactId>
     <version>${revision}</version>
     <modules>
-        <module>SpringAuthorizationServer.Portal</module>
         <module>SpringAuthorizationServer.Core</module>
+        <module>SpringAuthorizationServer.Portal</module>
     </modules>
     <dependencies>
 
