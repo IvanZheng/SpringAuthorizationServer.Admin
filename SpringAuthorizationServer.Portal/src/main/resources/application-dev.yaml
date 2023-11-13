@@ -1,11 +1,11 @@
-server:
-  port: 9000
+debug: false
+
 
 spring:
   datasource:
-    url: jdbc:dm://47.103.131.111:15236:IDS
+    url: jdbc:dm://localhost:15236:IDS
     username: IDS
-    password: withub!@#
+    password: SYSDBA
     driver-class-name: dm.jdbc.driver.DmDriver
   jpa:
     hibernate:

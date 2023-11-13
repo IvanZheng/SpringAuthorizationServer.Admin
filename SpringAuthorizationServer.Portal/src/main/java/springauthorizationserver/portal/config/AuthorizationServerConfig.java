@@ -4,8 +4,11 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
@@ -33,23 +36,44 @@ import springauthorizationserver.core.service.JpaOAuth2AuthorizationService;
 import springauthorizationserver.core.service.JpaRegisteredClientRepository;
 import springauthorizationserver.portal.federation.FederatedIdentityIdTokenCustomizer;
 import springauthorizationserver.portal.jose.Jwks;
+import springauthorizationserver.portal.web.authentication.DeviceClientAuthenticationConverter;
+import springauthorizationserver.portal.web.authentication.DeviceClientAuthenticationProvider;
 
 import java.util.UUID;
 
-@Configuration(proxyBeanMethods = false)
+@Configuration
 public class AuthorizationServerConfig {
     private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/consent";
 
+    public AuthorizationServerConfig(JpaRegisteredClientRepository registeredClientRepository){
+        initRegisteredClientRepository(registeredClientRepository);
+    }
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authorizationServerSecurityFilterChain(
-            HttpSecurity http) throws Exception {
+            HttpSecurity http, RegisteredClientRepository registeredClientRepository,
+            AuthorizationServerSettings authorizationServerSettings) throws Exception {
 
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
-
+        DeviceClientAuthenticationConverter deviceClientAuthenticationConverter =
+                new DeviceClientAuthenticationConverter(
+                        authorizationServerSettings.getDeviceAuthorizationEndpoint());
+        DeviceClientAuthenticationProvider deviceClientAuthenticationProvider =
+                new DeviceClientAuthenticationProvider(registeredClientRepository);
         // @formatter:off
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+            .deviceAuthorizationEndpoint(deviceAuthorizationEndpoint ->
+                                                 deviceAuthorizationEndpoint.verificationUri("/activate")
+            )
+            .deviceVerificationEndpoint(deviceVerificationEndpoint ->
+                                                deviceVerificationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI)
+            )
+            .clientAuthentication(clientAuthentication ->
+                                          clientAuthentication
+                                                  .authenticationConverter(deviceClientAuthenticationConverter)
+                                                  .authenticationProvider(deviceClientAuthenticationProvider)
+            )
                 .authorizationEndpoint(authorizationEndpoint ->
                         authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI))
                 .oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
@@ -64,13 +88,12 @@ public class AuthorizationServerConfig {
                 )
                 .oauth2ResourceServer(oauth2ResourceServer ->
                         oauth2ResourceServer.jwt(Customizer.withDefaults()));
-        // @formatter:on
+
         return http.build();
     }
 
-    // @formatter:off
-    @Bean
-    public RegisteredClientRepository registeredClientRepository(JpaRegisteredClientRepository registeredClientRepository) {
+
+    public void initRegisteredClientRepository(JpaRegisteredClientRepository registeredClientRepository) {
         var registeredClient = registeredClientRepository.findByClientId("messaging-client");
         if (registeredClient == null){
             registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
@@ -93,20 +116,6 @@ public class AuthorizationServerConfig {
 
             registeredClientRepository.save(registeredClient);
         }
-
-        return registeredClientRepository;
-    }
-    // @formatter:on
-
-    @Bean
-    public OAuth2AuthorizationService authorizationService(JpaOAuth2AuthorizationService authorizationService) {
-        return authorizationService;
-    }
-
-    @Bean
-    public OAuth2AuthorizationConsentService authorizationConsentService(JpaOAuth2AuthorizationConsentService authorizationConsentService) {
-        // Will be used by the ConsentController
-        return authorizationConsentService;
     }
 
     @Bean
