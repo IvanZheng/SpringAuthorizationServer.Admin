@@ -55,7 +55,7 @@ public class Client {
     }
 
     public void setClientIdIssuedAt(Instant clientIdIssuedAt) {
-        this.clientIdIssuedAt = clientIdIssuedAt != null ? clientIdIssuedAt : Instant.now();
+        this.clientIdIssuedAt = clientIdIssuedAt;
     }
 
     public String getClientSecret() {

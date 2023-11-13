@@ -39,6 +39,7 @@ import springauthorizationserver.portal.jose.Jwks;
 import springauthorizationserver.portal.web.authentication.DeviceClientAuthenticationConverter;
 import springauthorizationserver.portal.web.authentication.DeviceClientAuthenticationProvider;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Configuration
@@ -100,6 +101,7 @@ public class AuthorizationServerConfig {
                     .clientId("messaging-client")
                     .clientSecret("{noop}secret")
                     .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                    .clientIdIssuedAt(Instant.now())
                     .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                     .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                     .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
